@@ -50,7 +50,7 @@ run_unit_tests() {
         UNIT_CMD='cargo test --lib'
     elif command -v docker >/dev/null 2>&1; then
         echo "  cargo not found on host; running unit tests in Rust Docker image"
-        UNIT_CMD="docker run --rm -v \"$SCRIPT_DIR\":/app -w /app rust:1.88-bookworm bash -lc 'cargo test --lib'"
+        UNIT_CMD="docker run --rm -v \"$SCRIPT_DIR\":/app -w /app rust:1.88-bookworm bash -lc 'export PATH=/usr/local/cargo/bin:$PATH; cargo test --lib'"
     else
         echo "  ERROR: neither cargo nor docker is available to run unit tests"
         rm -f "$RESULT_FILE"
