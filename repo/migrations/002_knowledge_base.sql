@@ -1,6 +1,9 @@
 -- CivicSort: Waste-Sorting Knowledge Base Schema
 -- Migration 002: Knowledge base with versioning, fuzzy search, and image dedup
 
+-- Required for gin_trgm_ops indexes below
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- ============================================================
 -- Knowledge base categories
 -- ============================================================
@@ -144,11 +147,6 @@ INSERT INTO kb_search_config (
     10.0, 15.0, 5.0,
     0.3, 20
 );
-
--- ============================================================
--- Enable pg_trgm extension for fuzzy/trigram matching
--- ============================================================
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 -- Trigram indexes for fuzzy search on item names
 CREATE INDEX idx_kb_entries_trigram ON kb_entries USING GIN (item_name gin_trgm_ops);
